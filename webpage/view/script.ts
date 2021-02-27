@@ -1,34 +1,38 @@
-"use strict";
-const body = document.getElementById("body");
-const webPageTitle = document.getElementById("web-page-title");
-let pageTop;
-let content;
-let firstHeading;
-let bodyContent;
-let contentText;
-let sideBarsAndInfoBoxes;
-let windowWidth;
-const wikiUrl = window.location.href.split("/frontEnd/view/?url=")[1];
-function main() {
+const body: HTMLElement | null = document.getElementById("body");
+const webPageTitle: HTMLElement | null = document.getElementById("web-page-title");
+let pageTop: HTMLElement | null;
+let content: HTMLElement | null;
+let firstHeading: HTMLElement | null;
+let bodyContent: HTMLElement | null;
+let contentText: HTMLElement | null;
+let sideBarsAndInfoBoxes: NodeListOf<Element> | null;
+
+let windowWidth: number | null;
+
+const wikiUrl: string = window.location.href.split("/webpage/view/?url=")[1];
+
+function main(): void {
     fetch(`https://wiki-scraper.herokuapp.com/fetchContent?url=${wikiUrl}`)
         .then(function (response) {
-        return response.json();
-    })
+            return response.json();
+        })
         .then(function (myJson) {
-        if (body != null) {
-            body.innerHTML = myJson["body"];
-            changeDOMStructure();
-            applyRWD();
-        }
-    });
+            if (body != null) {
+                body.innerHTML = myJson["body"];
+                changeDOMStructure();
+                applyRWD();
+            }
+        });
 }
-function changeDOMStructure() {
+
+function changeDOMStructure(): void {
     pageTop = document.getElementById("top");
     content = document.getElementById("content");
     firstHeading = document.getElementById("firstHeading");
     bodyContent = document.getElementById("bodyContent");
     contentText = document.getElementById("mw-content-text");
     sideBarsAndInfoBoxes = document.querySelectorAll(".sidebar, .infobox");
+
     // remove all style tage
     let allStyleTags = document.getElementsByTagName("style");
     while (allStyleTags.length != 0) {
@@ -36,12 +40,14 @@ function changeDOMStructure() {
             each.outerHTML = "";
         }
     }
+
     // remove all original in-line styling
     let allDOMElements = document.getElementsByTagName("*");
     for (let each of allDOMElements) {
         each.removeAttribute("style");
     }
-    if (webPageTitle != null && (firstHeading === null || firstHeading === void 0 ? void 0 : firstHeading.innerText) != null) {
+
+    if (webPageTitle != null && firstHeading?.innerText != null) {
         webPageTitle.innerHTML = firstHeading.innerText;
     }
     if (body != null && content != null) {
@@ -72,8 +78,10 @@ function changeDOMStructure() {
             }
         }
     }
+
 }
-function applyRWD() {
+
+function applyRWD(): void {
     windowWidth = window.innerWidth;
     if (body != null) {
         body.style.width = `${window.innerWidth - 20}`;
@@ -81,14 +89,15 @@ function applyRWD() {
     if (content != null) {
         if (1024 <= windowWidth) {
             content.style.width = "60%";
-        }
-        else if (512 <= windowWidth && windowWidth < 1024) {
+        } else if (512 <= windowWidth && windowWidth < 1024) {
             content.style.width = "80%";
-        }
-        else if (windowWidth < 512) {
+        } else if (windowWidth < 512) {
             content.style.width = "90%";
         }
     }
+
+
 }
+
 main();
 window.addEventListener("resize", applyRWD);
