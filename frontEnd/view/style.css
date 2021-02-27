@@ -1,0 +1,78 @@
+html {
+    scroll-behavior: smooth;
+    cursor: default;
+    height: 100%;
+}
+
+::selection {
+    color: #fff;
+    background: #888;
+}
+
+
+/* div {
+    display: flex;
+    flex-direction: column;
+} */
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    font-family: "微軟正黑體", sans-serif;
+    background-color: #fefefa;
+}
+
+#content {
+    margin: 10px;
+}
+
+#firstHeading {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-family: 'Times New Roman', "微軟正黑體";
+    font-size: 3rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    margin: 100px 0 30px 0;
+}
+
+#mw-content-text p {
+    margin: 0;
+    padding: 20px 0;
+    letter-spacing: 1px;
+    line-height: 2.4rem;
+    text-align: justify;
+    text-justify: inter-ideograph;
+}
+
+#info-card-bar {
+    height: fit-content;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, 60px);
+    justify-items: stretch;
+    justify-content: center;
+    margin-bottom: 30px;
+    transition-duration: 300ms;
+}
+
+.info-card {
+    border-radius: 3px;
+    width: 100%;
+    margin: 0;
+    height: 30px;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 700;
+    transition-duration: 300ms;
+}
+
+.info-card:hover {
+    background-color: #bbb;
+}
