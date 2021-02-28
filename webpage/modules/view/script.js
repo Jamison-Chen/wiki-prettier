@@ -7,6 +7,7 @@ let firstHeading;
 let bodyContent;
 let contentText;
 let sideBarsAndInfoBoxes;
+let contentsList;
 let windowWidth;
 const wikiUrl = window.location.href.split("/webpage/view/?url=")[1];
 function main() {
@@ -30,6 +31,7 @@ function changeDOMStructure() {
     bodyContent = document.getElementById("bodyContent");
     contentText = document.getElementById("mw-content-text");
     sideBarsAndInfoBoxes = document.querySelectorAll(".sidebar, .infobox");
+    contentsList = document.getElementById("toc");
     // remove all style tage
     let allStyleTags = document.getElementsByTagName("style");
     while (allStyleTags.length != 0) {
@@ -51,21 +53,6 @@ function changeDOMStructure() {
             }
         }
     }
-    if (webPageTitle != null && (firstHeading === null || firstHeading === void 0 ? void 0 : firstHeading.innerText) != null) {
-        webPageTitle.innerHTML = firstHeading.innerText;
-    }
-    if (body != null && content != null) {
-        body.innerHTML = "";
-        body.appendChild(content);
-    }
-    if (pageTop != null && firstHeading != null) {
-        pageTop.innerHTML = "";
-        pageTop.appendChild(firstHeading);
-    }
-    if (bodyContent != null && contentText != null) {
-        bodyContent.innerHTML = "";
-        bodyContent.appendChild(contentText);
-    }
     // change sidebars and infoboxes into info cards
     if (content != null) {
         const infoCardBar = document.createElement("div");
@@ -86,6 +73,41 @@ function changeDOMStructure() {
             }
         }
     }
+    // change content list into side bar
+    if (content != null && contentsList != null && contentsList.parentElement != null) {
+        let toggle = document.getElementById("toctogglecheckbox");
+        if (toggle != null) {
+            contentsList.removeChild(toggle);
+        }
+        toggle = document.createElement("div");
+        toggle.id = "contents-list-toggle";
+        toggle.className = "to-expand";
+        toggle.addEventListener("click", expandContentsList);
+        const outerDiv = document.createElement("div");
+        outerDiv.innerHTML = contentsList.innerHTML;
+        outerDiv.appendChild(toggle);
+        contentsList.innerHTML = "";
+        contentsList.appendChild(outerDiv);
+        contentsList.classList.add("fold");
+        contentsList.parentElement.removeChild(contentsList);
+        content.insertBefore(contentsList, content.children[2]);
+    }
+    // other changes
+    if (webPageTitle != null && (firstHeading === null || firstHeading === void 0 ? void 0 : firstHeading.innerText) != null) {
+        webPageTitle.innerHTML = firstHeading.innerText;
+    }
+    if (body != null && content != null) {
+        body.innerHTML = "";
+        body.appendChild(content);
+    }
+    if (pageTop != null && firstHeading != null) {
+        pageTop.innerHTML = "";
+        pageTop.appendChild(firstHeading);
+    }
+    if (bodyContent != null && contentText != null) {
+        bodyContent.innerHTML = "";
+        bodyContent.appendChild(contentText);
+    }
 }
 function expandInfoCard(e) {
     if (e.target instanceof HTMLElement) {
@@ -103,7 +125,7 @@ function expandInfoCard(e) {
     }
 }
 function foldInfoCard(e) {
-    if (e.target instanceof HTMLElement && e.target.className.indexOf("info-card") != -1) {
+    if (e.target instanceof HTMLElement && e.target.classList.contains("info-card")) {
         e.target.removeEventListener("click", foldInfoCard);
         e.target.addEventListener("click", expandInfoCard);
         e.target.className = "info-card fold";
@@ -117,6 +139,28 @@ function foldInfoCard(e) {
         }
     }
 }
+function expandContentsList(e) {
+    if (e.target instanceof HTMLElement && contentsList != null) {
+        e.target.className = "to-fold";
+        e.target.removeEventListener("click", expandContentsList);
+        e.target.addEventListener("click", foldContentsLst);
+        // if (contentsList.classList.contains("wide") || contentsList.classList.contains("narrow")) {
+        contentsList.classList.remove("fold");
+        contentsList.classList.add("expand");
+        // }
+    }
+}
+function foldContentsLst(e) {
+    if (e.target instanceof HTMLElement && contentsList != null) {
+        e.target.className = "to-expand";
+        e.target.removeEventListener("click", foldContentsLst);
+        e.target.addEventListener("click", expandContentsList);
+        // if (contentsList.classList.contains("wide") || contentsList.classList.contains("narrow")) {
+        contentsList.classList.remove("expand");
+        contentsList.classList.add("fold");
+        // }
+    }
+}
 function applyRWD() {
     windowWidth = window.innerWidth;
     if (body != null) {
@@ -125,12 +169,21 @@ function applyRWD() {
     if (content != null) {
         if (1024 <= windowWidth) {
             content.className = "wide";
+            contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("narrow");
+            contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("super-narrow");
+            contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.add("wide");
         }
         else if (512 <= windowWidth && windowWidth < 1024) {
             content.className = "narrow";
+            contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("wide");
+            contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("super-narrow");
+            contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.add("narrow");
         }
         else if (windowWidth < 512) {
             content.className = "super-narrow";
+            contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("wide");
+            contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("narrow");
+            contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.add("super-narrow");
         }
     }
 }
