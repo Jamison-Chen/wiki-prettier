@@ -36,7 +36,7 @@ function changeDOMStructure(): void {
     sideBarsAndInfoBoxes = document.querySelectorAll(".sidebar, .infobox");
     contentsList = document.getElementById("toc");
 
-    // remove all style tage
+    // remove all style tag
     let allStyleTags = document.getElementsByTagName("style");
     while (allStyleTags.length != 0) {
         for (let each of allStyleTags) {
@@ -101,6 +101,15 @@ function changeDOMStructure(): void {
         contentsList.parentElement.removeChild(contentsList);
         content.insertBefore(contentsList, content.children[2])
     }
+
+    // remove all edit section
+    let allEditSections = document.getElementsByClassName("mw-editsection");
+    while (allEditSections.length != 0) {
+        for (let each of allEditSections) {
+            each.parentElement?.removeChild(each);
+        }
+    }
+
 
     // other changes
     if (webPageTitle != null && firstHeading?.innerText != null) {

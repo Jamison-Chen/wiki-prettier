@@ -276,3 +276,8 @@ body {
     letter-spacing: 0px;
     line-height: 1.8rem;
 }
+
+.reference {
+    font-size: calc(var(--fonSize) * 1 / 4);
+    letter-spacing: 0px;
+}
