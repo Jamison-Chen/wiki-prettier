@@ -21,6 +21,7 @@ function main(): void {
                 body.innerHTML = myJson["body"];
                 changeDOMStructure();
                 applyRWD();
+                window.addEventListener("resize", applyRWD);
             }
         });
 }
@@ -41,10 +42,20 @@ function changeDOMStructure(): void {
         }
     }
 
-    // remove all original in-line styling
+    // remove all original inline styling
     let allDOMElements = document.getElementsByTagName("*");
     for (let each of allDOMElements) {
         each.removeAttribute("style");
+    }
+
+    // modify all anchors href
+    const allAnchors = document.getElementsByTagName("a");
+    for (let each of allAnchors) {
+        if (each.href.split("?url=")[0] != window.location.href.split("?url=")[0]) {
+            if (each.href.indexOf("/wiki/") != -1) {
+                each.href = `${window.location.href.split("/wiki/")[0]}/wiki/${each.href.split("/wiki/")[1]}`;
+            }
+        }
     }
 
     if (webPageTitle != null && firstHeading?.innerText != null) {
@@ -62,23 +73,60 @@ function changeDOMStructure(): void {
         bodyContent.innerHTML = "";
         bodyContent.appendChild(contentText);
     }
+
     // change sidebars and infoboxes into info cards
     if (content != null) {
-        const e = document.createElement("div");
-        e.id = "info-card-bar";
-        content.insertBefore(e, content.children[1]);
+        const infoCardBar = document.createElement("div");
+        infoCardBar.id = "info-card-bar";
+        content.insertBefore(infoCardBar, content.children[1]);
         for (let each of sideBarsAndInfoBoxes) {
             if (each instanceof HTMLElement) {
                 each.style.display = "none";
                 const aCard = document.createElement("div");
-                aCard.className = "info-card";
+                aCard.className = "info-card fold";
+                const containerShowed = document.createElement("div");
+                containerShowed.className = "container-showed fold";
+                containerShowed.appendChild(each);
                 aCard.innerHTML = "info";
-                aCard.appendChild(each);
-                e.appendChild(aCard);
+                aCard.appendChild(containerShowed);
+                infoCardBar.appendChild(aCard);
+                aCard.addEventListener("click", expandInfoCard);
             }
         }
     }
 
+}
+
+function expandInfoCard(e: Event): void {
+    if (e.target instanceof HTMLElement) {
+        e.target.removeEventListener("click", expandInfoCard);
+        e.target.addEventListener("click", foldInfoCard);
+        e.target.className = "info-card expand";
+        const containerShowed = e.target.querySelector(".container-showed");
+        const infoTable = containerShowed?.querySelector(".sidebar, .infobox");
+        if (containerShowed != null && infoTable instanceof HTMLElement) {
+            containerShowed.className = "container-showed expand";
+            infoTable.style.display = "table";
+            e.target.innerHTML = "";
+            e.target.appendChild(containerShowed);
+        }
+    }
+}
+
+function foldInfoCard(e: Event): void {
+    if (e.target instanceof HTMLElement && e.target.className.indexOf("info-card") != -1) {
+        e.target.removeEventListener("click", foldInfoCard);
+        e.target.addEventListener("click", expandInfoCard);
+        e.target.className = "info-card fold";
+        const containerShowed = e.target.querySelector(".container-showed");
+        const info = containerShowed?.querySelector(".sidebar, .infobox");
+        if (containerShowed != null && info instanceof HTMLElement) {
+            containerShowed.className = "container-showed fold";
+            info.style.display = "none";
+            e.target.innerHTML = "info";
+            e.target.appendChild(containerShowed);
+        }
+    }
 }
 
 function applyRWD(): void {
@@ -88,16 +136,13 @@ function applyRWD(): void {
     }
     if (content != null) {
         if (1024 <= windowWidth) {
-            content.style.width = "60%";
+            content.className = "wide";
         } else if (512 <= windowWidth && windowWidth < 1024) {
-            content.style.width = "80%";
+            content.className = "narrow";
         } else if (windowWidth < 512) {
-            content.style.width = "90%";
+            content.className = "super-narrow";
         }
     }
-
-
 }
 
 main();
-window.addEventListener("resize", applyRWD);
