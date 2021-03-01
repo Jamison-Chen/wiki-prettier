@@ -8,21 +8,23 @@ let bodyContent;
 let contentText;
 let sideBarsAndInfoBoxes;
 let contentsList;
-const wikiUrl = window.location.href.split("/webpage/view/?url=")[1];
+const wikiUrl = window.location.href.split("/view/?url=")[1];
+
 function main() {
     fetch(`https://wiki-scraper.herokuapp.com/fetchContent?url=${wikiUrl}`)
-        .then(function (response) {
-        return response.json();
-    })
-        .then(function (myJson) {
-        if (body != null) {
-            body.innerHTML = myJson["body"];
-            changeDOMStructure();
-            applyRWD();
-            window.addEventListener("resize", applyRWD);
-        }
-    });
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(myJson) {
+            if (body != null) {
+                body.innerHTML = myJson["body"];
+                changeDOMStructure();
+                applyRWD();
+                window.addEventListener("resize", applyRWD);
+            }
+        });
 }
+
 function changeDOMStructure() {
     var _a;
     pageTop = document.getElementById("top");
@@ -116,6 +118,7 @@ function changeDOMStructure() {
         bodyContent.appendChild(contentText);
     }
 }
+
 function expandInfoCard(e) {
     if (e.target instanceof HTMLElement) {
         e.target.removeEventListener("click", expandInfoCard);
@@ -131,6 +134,7 @@ function expandInfoCard(e) {
         }
     }
 }
+
 function foldInfoCard(e) {
     if (e.target instanceof HTMLElement && e.target.classList.contains("info-card")) {
         e.target.removeEventListener("click", foldInfoCard);
@@ -146,6 +150,7 @@ function foldInfoCard(e) {
         }
     }
 }
+
 function expandContentsList(e) {
     if (e.target instanceof HTMLElement && contentsList != null) {
         e.target.className = "to-fold";
@@ -157,6 +162,7 @@ function expandContentsList(e) {
         // }
     }
 }
+
 function foldContentsLst(e) {
     if (e.target instanceof HTMLElement && contentsList != null) {
         e.target.className = "to-expand";
@@ -168,6 +174,7 @@ function foldContentsLst(e) {
         // }
     }
 }
+
 function applyRWD() {
     let windowWidth = window.innerWidth;
     if (body != null) {
@@ -179,14 +186,12 @@ function applyRWD() {
             contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("narrow");
             contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("super-narrow");
             contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.add("wide");
-        }
-        else if (512 <= windowWidth && windowWidth < 1024) {
+        } else if (512 <= windowWidth && windowWidth < 1024) {
             content.className = "narrow";
             contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("wide");
             contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("super-narrow");
             contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.add("narrow");
-        }
-        else if (windowWidth < 512) {
+        } else if (windowWidth < 512) {
             content.className = "super-narrow";
             contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("wide");
             contentsList === null || contentsList === void 0 ? void 0 : contentsList.classList.remove("narrow");

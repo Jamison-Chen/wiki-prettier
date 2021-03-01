@@ -8,7 +8,7 @@ let contentText: HTMLElement | null;
 let sideBarsAndInfoBoxes: NodeListOf<Element> | null;
 let contentsList: HTMLElement | null;
 
-const wikiUrl: string = window.location.href.split("/webpage/view/?url=")[1];
+const wikiUrl: string = window.location.href.split("/view/?url=")[1];
 
 function main(): void {
     fetch(`https://wiki-scraper.herokuapp.com/fetchContent?url=${wikiUrl}`)
