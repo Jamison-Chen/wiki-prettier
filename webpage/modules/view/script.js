@@ -8,7 +8,6 @@ let bodyContent;
 let contentText;
 let sideBarsAndInfoBoxes;
 let contentsList;
-let windowWidth;
 const wikiUrl = window.location.href.split("/webpage/view/?url=")[1];
 function main() {
     fetch(`https://wiki-scraper.herokuapp.com/fetchContent?url=${wikiUrl}`)
@@ -170,7 +169,7 @@ function foldContentsLst(e) {
     }
 }
 function applyRWD() {
-    windowWidth = window.innerWidth;
+    let windowWidth = window.innerWidth;
     if (body != null) {
         body.style.width = `${window.innerWidth - 20}`;
     }

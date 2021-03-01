@@ -8,8 +8,6 @@ let contentText: HTMLElement | null;
 let sideBarsAndInfoBoxes: NodeListOf<Element> | null;
 let contentsList: HTMLElement | null;
 
-let windowWidth: number | null;
-
 const wikiUrl: string = window.location.href.split("/webpage/view/?url=")[1];
 
 function main(): void {
@@ -186,7 +184,7 @@ function foldContentsLst(e: Event): void {
 }
 
 function applyRWD(): void {
-    windowWidth = window.innerWidth;
+    let windowWidth = window.innerWidth;
     if (body != null) {
         body.style.width = `${window.innerWidth - 20}`;
     }
