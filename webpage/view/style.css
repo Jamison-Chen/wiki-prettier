@@ -12,6 +12,13 @@
         --contentWidth: 60%;
         --fontSize: 3rem;
     }
+    .side-bar {
+        display: grid;
+        width: 4vw;
+        gap: 0;
+        grid-template-columns: repeat(auto-fit, minmax(4vw, 1fr));
+        justify-items: stretch;
+    }
 }
 
 @media screen and (min-width:512px) and (max-width:1024px) {
@@ -20,6 +27,9 @@
         --contentWidth: 80%;
         --fontSize: 3rem;
     }
+    .side-bar {
+        display: none;
+    }
 }
 
 @media screen and (max-width:512px) {
@@ -27,6 +37,9 @@
         --contentsListMaxWidth: 90vw;
         --contentWidth: 85%;
         --fontSize: 2.7rem;
+    }
+    .side-bar {
+        display: none;
     }
 }
 
@@ -316,3 +329,30 @@ body.normal>#waiting-frame {
 .reflist~* {
     word-break: break-all;
 }
+
+
+/* .side-bar {
+    padding: 20px 0;
+    position: fixed;
+    border-radius: 500px;
+}
+
+#main-tool {
+    top: 40vh;
+    right: 8vw;
+    height: 20vh;
+    transform: translateY(-10vh);
+}
+
+#other-tool {
+    bottom: 0;
+    right: 8vw;
+    height: 14vh;
+    transform: translateY(-7vh);
+}
+
+.side-bar .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
