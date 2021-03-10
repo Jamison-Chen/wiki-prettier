@@ -8,7 +8,7 @@
 
 @media screen and (min-width:1024px) {
      :root {
-        --contentsListMaxWidth: 30vw;
+        --contentsListMaxWidth: 25vw;
         --contentWidth: 60%;
         --fontSize: 3rem;
     }
@@ -98,6 +98,7 @@ body {
 }
 
 #fetched-content-container {
+    max-width: 100%;
     margin: 0;
     padding: 0;
     display: flex;
@@ -152,12 +153,17 @@ body.normal>#waiting-frame {
     color: var(--titleColor);
 }
 
-#mw-content-text {
+#mw-content-text,
+.info-card.expand {
     font-size: calc(var(--fontSize) * 1 / 3);
     text-align: justify;
     text-justify: inter-ideograph;
     letter-spacing: 1px;
     line-height: 2.4rem;
+}
+
+#mw-content-text pre {
+    line-height: 1.8rem;
 }
 
 #mw-content-text p {
@@ -218,6 +224,7 @@ body.normal>#waiting-frame {
     display: flex;
     width: fit-content;
     min-width: 300px;
+    max-width: var(--contentWidth);
     height: fit-content;
     max-height: 80%;
     margin: 10% 0;
