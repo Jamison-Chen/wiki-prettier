@@ -66,7 +66,8 @@ function modifyDOMStructure() {
     // remove all parts after external link
     let externalLink = document.querySelector("#External_links, #外部連結");
     let externalLinkID = externalLink === null || externalLink === void 0 ? void 0 : externalLink.id;
-    if (externalLink instanceof HTMLElement && externalLink.parentElement != null) {
+    if (externalLink instanceof HTMLElement &&
+        externalLink.parentElement != null) {
         while (externalLink != null && externalLink.tagName != "H2") {
             externalLink = externalLink.parentElement;
         }
@@ -77,8 +78,10 @@ function modifyDOMStructure() {
         externalLink = next;
     }
     let externalLinkAnchor = document.querySelector(`#toc a[href='#${externalLinkID}']`);
-    if (externalLinkAnchor instanceof HTMLElement && externalLinkAnchor.parentElement != null) {
-        while (externalLinkAnchor != null && externalLinkAnchor.tagName != "LI") {
+    if (externalLinkAnchor instanceof HTMLElement &&
+        externalLinkAnchor.parentElement != null) {
+        while (externalLinkAnchor != null &&
+            externalLinkAnchor.tagName != "LI") {
             externalLinkAnchor = externalLinkAnchor.parentElement;
         }
     }
@@ -102,7 +105,8 @@ function modifyDOMStructure() {
     // modify all anchors href
     const allAnchors = document.getElementsByTagName("a");
     for (let each of allAnchors) {
-        if (each.href.split("?url=")[0] != window.location.href.split("?url=")[0]) {
+        if (each.href.split("?url=")[0] !=
+            window.location.href.split("?url=")[0]) {
             if (each.href.indexOf("/wiki/") != -1) {
                 each.href = `${window.location.href.split("/wiki/")[0]}/wiki/${each.href.split("/wiki/")[1]}`;
             }
@@ -129,7 +133,9 @@ function modifyDOMStructure() {
         }
     }
     // change content list into side bar
-    if (content != null && contentsList != null && contentsList.parentElement != null) {
+    if (content != null &&
+        contentsList != null &&
+        contentsList.parentElement != null) {
         let oldToggle = document.getElementById("toctogglecheckbox");
         if (oldToggle != null) {
             contentsList.removeChild(oldToggle);
@@ -199,7 +205,8 @@ function expandInfoCard(e) {
     }
 }
 function foldInfoCard(e) {
-    if (e.target instanceof HTMLElement && e.target.classList.contains("info-card")) {
+    if (e.target instanceof HTMLElement &&
+        e.target.classList.contains("info-card")) {
         e.target.removeEventListener("click", foldInfoCard);
         e.target.addEventListener("click", expandInfoCard);
         e.target.className = "info-card fold";

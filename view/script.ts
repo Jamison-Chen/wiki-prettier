@@ -1,6 +1,9 @@
 const body = document.getElementById("body");
-const fetchedContentContainer = document.getElementById("fetched-content-container");
-const webPageTitle: HTMLElement | null = document.getElementById("web-page-title");
+const fetchedContentContainer = document.getElementById(
+    "fetched-content-container"
+);
+const webPageTitle: HTMLElement | null =
+    document.getElementById("web-page-title");
 let pageTop: HTMLElement | null;
 let content: HTMLElement | null;
 let firstHeading: HTMLElement | null;
@@ -45,7 +48,9 @@ function modifyDOMStructure(): void {
     firstHeading = document.getElementById("firstHeading");
     bodyContent = document.getElementById("bodyContent");
     contentText = document.getElementById("mw-content-text");
-    sideBarsAndInfoBoxes = document.querySelectorAll(".navbox, .sidebar, .infobox, .box-More_footnotes, .box-Multiple_issues");
+    sideBarsAndInfoBoxes = document.querySelectorAll(
+        ".navbox, .sidebar, .infobox, .box-More_footnotes, .box-Multiple_issues"
+    );
     contentsList = document.getElementById("toc");
     allHeadlines = document.getElementsByClassName("mw-headline");
 
@@ -68,7 +73,10 @@ function modifyDOMStructure(): void {
     // remove all parts after external link
     let externalLink = document.querySelector("#External_links, #外部連結");
     let externalLinkID = externalLink?.id;
-    if (externalLink instanceof HTMLElement && externalLink.parentElement != null) {
+    if (
+        externalLink instanceof HTMLElement &&
+        externalLink.parentElement != null
+    ) {
         while (externalLink != null && externalLink.tagName != "H2") {
             externalLink = externalLink.parentElement;
         }
@@ -78,9 +86,17 @@ function modifyDOMStructure(): void {
         externalLink.parentElement?.removeChild(externalLink);
         externalLink = next;
     }
-    let externalLinkAnchor = document.querySelector(`#toc a[href='#${externalLinkID}']`);
-    if (externalLinkAnchor instanceof HTMLElement && externalLinkAnchor.parentElement != null) {
-        while (externalLinkAnchor != null && externalLinkAnchor.tagName != "LI") {
+    let externalLinkAnchor = document.querySelector(
+        `#toc a[href='#${externalLinkID}']`
+    );
+    if (
+        externalLinkAnchor instanceof HTMLElement &&
+        externalLinkAnchor.parentElement != null
+    ) {
+        while (
+            externalLinkAnchor != null &&
+            externalLinkAnchor.tagName != "LI"
+        ) {
             externalLinkAnchor = externalLinkAnchor.parentElement;
         }
     }
@@ -107,9 +123,14 @@ function modifyDOMStructure(): void {
     // modify all anchors href
     const allAnchors = document.getElementsByTagName("a");
     for (let each of allAnchors) {
-        if (each.href.split("?url=")[0] != window.location.href.split("?url=")[0]) {
+        if (
+            each.href.split("?url=")[0] !=
+            window.location.href.split("?url=")[0]
+        ) {
             if (each.href.indexOf("/wiki/") != -1) {
-                each.href = `${window.location.href.split("/wiki/")[0]}/wiki/${each.href.split("/wiki/")[1]}`;
+                each.href = `${window.location.href.split("/wiki/")[0]}/wiki/${
+                    each.href.split("/wiki/")[1]
+                }`;
             }
         }
     }
@@ -136,7 +157,11 @@ function modifyDOMStructure(): void {
     }
 
     // change content list into side bar
-    if (content != null && contentsList != null && contentsList.parentElement != null) {
+    if (
+        content != null &&
+        contentsList != null &&
+        contentsList.parentElement != null
+    ) {
         let oldToggle = document.getElementById("toctogglecheckbox");
         if (oldToggle != null) {
             contentsList.removeChild(oldToggle);
@@ -153,7 +178,7 @@ function modifyDOMStructure(): void {
         contentsList.appendChild(outerDiv);
         contentsList.classList.add("fold");
         contentsList.parentElement.removeChild(contentsList);
-        content.insertBefore(contentsList, content.children[2])
+        content.insertBefore(contentsList, content.children[2]);
     }
 
     // remove all edit section
@@ -202,7 +227,9 @@ function expandInfoCard(e: Event): void {
         e.target.addEventListener("click", foldInfoCard);
         e.target.className = "info-card expand";
         const containerShowed = e.target.querySelector(".container-showed");
-        const infoTable = e.target.querySelector(".navbox, .sidebar, .infobox, .box-More_footnotes, .box-Multiple_issues");
+        const infoTable = e.target.querySelector(
+            ".navbox, .sidebar, .infobox, .box-More_footnotes, .box-Multiple_issues"
+        );
         if (containerShowed != null && infoTable instanceof HTMLElement) {
             containerShowed.className = "container-showed expand";
             infoTable.style.display = "table";
@@ -213,12 +240,17 @@ function expandInfoCard(e: Event): void {
 }
 
 function foldInfoCard(e: Event): void {
-    if (e.target instanceof HTMLElement && e.target.classList.contains("info-card")) {
+    if (
+        e.target instanceof HTMLElement &&
+        e.target.classList.contains("info-card")
+    ) {
         e.target.removeEventListener("click", foldInfoCard);
         e.target.addEventListener("click", expandInfoCard);
         e.target.className = "info-card fold";
         const containerShowed = e.target.querySelector(".container-showed");
-        const info = e.target.querySelector(".navbox, .sidebar, .infobox, .box-More_footnotes, .box-Multiple_issues");
+        const info = e.target.querySelector(
+            ".navbox, .sidebar, .infobox, .box-More_footnotes, .box-Multiple_issues"
+        );
         if (containerShowed != null && info instanceof HTMLElement) {
             containerShowed.className = "container-showed fold";
             info.style.display = "none";
@@ -296,7 +328,9 @@ function makeCorrespoingAnchorBold(e: Event): void {
                 closestHeadline = each;
             }
         }
-        let correnpondingAnchor = document.querySelector(`#toc a[href='#${closestHeadline?.id}']`);
+        let correnpondingAnchor = document.querySelector(
+            `#toc a[href='#${closestHeadline?.id}']`
+        );
         if (lastCorrenpondingAnchor != null) {
             lastCorrenpondingAnchor.classList.remove("on");
         }

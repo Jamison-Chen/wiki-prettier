@@ -2,16 +2,17 @@
     "name": "webpage",
     "version": "1.0.0",
     "description": "",
-    "main": "./modules/script.js",
+    "main": "./script.bundle.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start:build": "tsc -w"
+        "watch-tsc": "tsc -w",
+        "watch-sass": "sass --watch ./:./ view/:view/",
+        "dev": "concurrently 'npm:watch-*'"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "dependencies": {},
     "devDependencies": {
-        "typescript": "^4.4.4"
+        "typescript": "^4.6.3"
     }
 }
