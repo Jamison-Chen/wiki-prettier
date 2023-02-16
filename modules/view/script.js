@@ -19,7 +19,7 @@ function main() {
     if (body != null) {
         body.className = "waiting";
     }
-    fetch(`https://wiki-scraper.herokuapp.com/fetchContent?url=${wikiUrl}`)
+    fetch(`https://my-crawler.onrender.com/fetchContent?url=${wikiUrl}`)
         .then((resp) => resp.json())
         .then(function (myJson) {
         if (body != null && fetchedContentContainer != null) {
