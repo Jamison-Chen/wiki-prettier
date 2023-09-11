@@ -14,12 +14,16 @@ let allHeadlines;
 let lastCorrenpondingAnchor;
 let allComponents;
 let allMathExpressionss;
+const backendUrl = window.location.href.includes("localhost") ||
+    window.location.href.includes("127.0.0.1")
+    ? "http://127.0.0.1:5000/fetchContent?url="
+    : "https://my-crawler.onrender.com/fetchContent?url=";
 const wikiUrl = window.location.href.split("/view/?url=")[1];
 function main() {
     if (body != null) {
         body.className = "waiting";
     }
-    fetch(`https://my-crawler.onrender.com/fetchContent?url=${wikiUrl}`)
+    fetch(`${backendUrl}${wikiUrl}`)
         .then((resp) => resp.json())
         .then(function (myJson) {
         if (body != null && fetchedContentContainer != null) {
@@ -32,7 +36,6 @@ function main() {
     });
 }
 function modifyDOMStructure() {
-    var _a, _b, _c, _d, _e, _f;
     pageTop = document.getElementById("top");
     content = document.getElementById("content");
     firstHeading = document.getElementById("firstHeading");
@@ -41,24 +44,22 @@ function modifyDOMStructure() {
     sideBarsAndInfoBoxes = document.querySelectorAll(".navbox, .sidebar, .infobox, .box-More_footnotes, .box-Multiple_issues");
     contentsList = document.getElementById("toc");
     allHeadlines = document.getElementsByClassName("mw-headline");
-    // remove all unnecessary parts
     const allWeiredNavbars = document.getElementsByClassName("navbar");
     while (allWeiredNavbars.length != 0) {
         for (let each of allWeiredNavbars) {
-            (_a = each.parentElement) === null || _a === void 0 ? void 0 : _a.removeChild(each);
+            each.parentElement?.removeChild(each);
         }
     }
     const printfooter = document.getElementsByClassName("printfooter");
     while (printfooter.length != 0) {
         for (let each of printfooter) {
-            (_b = each.parentElement) === null || _b === void 0 ? void 0 : _b.removeChild(each);
+            each.parentElement?.removeChild(each);
         }
     }
     let catlinks = document.getElementById("catlinks");
-    (_c = catlinks === null || catlinks === void 0 ? void 0 : catlinks.parentElement) === null || _c === void 0 ? void 0 : _c.removeChild(catlinks);
-    // remove all parts after external link
+    catlinks?.parentElement?.removeChild(catlinks);
     let externalLink = document.querySelector("#External_links, #外部連結");
-    let externalLinkID = externalLink === null || externalLink === void 0 ? void 0 : externalLink.id;
+    let externalLinkID = externalLink?.id;
     if (externalLink instanceof HTMLElement &&
         externalLink.parentElement != null) {
         while (externalLink != null && externalLink.tagName != "H2") {
@@ -67,7 +68,7 @@ function modifyDOMStructure() {
     }
     while (externalLink != null) {
         let next = externalLink.nextElementSibling;
-        (_d = externalLink.parentElement) === null || _d === void 0 ? void 0 : _d.removeChild(externalLink);
+        externalLink.parentElement?.removeChild(externalLink);
         externalLink = next;
     }
     let externalLinkAnchor = document.querySelector(`#toc a[href='#${externalLinkID}']`);
@@ -80,22 +81,19 @@ function modifyDOMStructure() {
     }
     while (externalLinkAnchor != null) {
         let next = externalLinkAnchor.nextElementSibling;
-        (_e = externalLinkAnchor.parentElement) === null || _e === void 0 ? void 0 : _e.removeChild(externalLinkAnchor);
+        externalLinkAnchor.parentElement?.removeChild(externalLinkAnchor);
         externalLinkAnchor = next;
     }
-    // remove all style tag
     let allStyleTags = document.getElementsByTagName("style");
     while (allStyleTags.length != 0) {
         for (let each of allStyleTags) {
             each.outerHTML = "";
         }
     }
-    // remove all original inline styling
     let allDOMElements = document.getElementsByTagName("*");
     for (let each of allDOMElements) {
         each.removeAttribute("style");
     }
-    // modify all anchors href
     const allAnchors = document.getElementsByTagName("a");
     for (let each of allAnchors) {
         if (each.href.split("?url=")[0] !=
@@ -105,7 +103,6 @@ function modifyDOMStructure() {
             }
         }
     }
-    // change sidebars and infoboxes into info cards
     if (content != null) {
         const infoCardBar = document.createElement("div");
         infoCardBar.id = "info-card-bar";
@@ -125,7 +122,6 @@ function modifyDOMStructure() {
             }
         }
     }
-    // change content list into side bar
     if (content != null &&
         contentsList != null &&
         contentsList.parentElement != null) {
@@ -146,14 +142,12 @@ function modifyDOMStructure() {
         contentsList.parentElement.removeChild(contentsList);
         content.insertBefore(contentsList, content.children[2]);
     }
-    // remove all edit section
     let allEditSections = document.getElementsByClassName("mw-editsection");
     while (allEditSections.length != 0) {
         for (let each of allEditSections) {
-            (_f = each.parentElement) === null || _f === void 0 ? void 0 : _f.removeChild(each);
+            each.parentElement?.removeChild(each);
         }
     }
-    // make all math expression clean
     allMathExpressionss = document.querySelectorAll(".mwe-math-element>img");
     for (let each of allMathExpressionss) {
         if (each.parentElement != null) {
@@ -162,11 +156,7 @@ function modifyDOMStructure() {
             tempParent.appendChild(each);
         }
     }
-    // remove data after content
-    // const dataAfterContent = document.getElementById("mw-data-after-content");
-    // dataAfterContent?.parentElement?.removeChild(dataAfterContent);
-    // other changes
-    if (webPageTitle != null && (firstHeading === null || firstHeading === void 0 ? void 0 : firstHeading.innerText) != null) {
+    if (webPageTitle != null && firstHeading?.innerText != null) {
         webPageTitle.innerHTML = firstHeading.innerText;
     }
     if (fetchedContentContainer != null && content != null) {
@@ -218,9 +208,7 @@ function expandContentsList(e) {
         e.target.className = "to-fold";
         e.target.removeEventListener("click", expandContentsList);
         e.target.addEventListener("click", foldContentsLst);
-        // if (contentsList.classList.contains("wide") || contentsList.classList.contains("narrow")) {
         contentsList.classList.add("expand");
-        // }
     }
 }
 function foldContentsLst(e) {
@@ -228,9 +216,7 @@ function foldContentsLst(e) {
         e.target.className = "to-expand";
         e.target.removeEventListener("click", foldContentsLst);
         e.target.addEventListener("click", expandContentsList);
-        // if (contentsList.classList.contains("wide") || contentsList.classList.contains("narrow")) {
         contentsList.classList.remove("expand");
-        // }
     }
 }
 function makeCorrespoingAnchorBold(e) {
@@ -244,7 +230,7 @@ function makeCorrespoingAnchorBold(e) {
                 closestHeadline = each;
             }
         }
-        let correnpondingAnchor = document.querySelector(`#toc a[href='#${closestHeadline === null || closestHeadline === void 0 ? void 0 : closestHeadline.id}']`);
+        let correnpondingAnchor = document.querySelector(`#toc a[href='#${closestHeadline?.id}']`);
         if (lastCorrenpondingAnchor != null) {
             lastCorrenpondingAnchor.classList.remove("on");
         }

@@ -17,13 +17,18 @@ let lastCorrenpondingAnchor: HTMLElement | null;
 let allComponents: HTMLCollectionOf<Element> | null;
 let allMathExpressionss: NodeListOf<Element> | null;
 
+const backendUrl =
+    window.location.href.includes("localhost") ||
+    window.location.href.includes("127.0.0.1")
+        ? "http://127.0.0.1:5000/fetchContent?url="
+        : "https://my-crawler.onrender.com/fetchContent?url=";
 const wikiUrl: string = window.location.href.split("/view/?url=")[1];
 
 function main(): void {
     if (body != null) {
         body.className = "waiting";
     }
-    fetch(`https://my-crawler.onrender.com/fetchContent?url=${wikiUrl}`)
+    fetch(`${backendUrl}${wikiUrl}`)
         .then((resp) => resp.json())
         .then(function (myJson) {
             if (body != null && fetchedContentContainer != null) {
@@ -35,6 +40,7 @@ function main(): void {
             }
         });
 }
+
 function modifyDOMStructure(): void {
     pageTop = document.getElementById("top");
     content = document.getElementById("content");
@@ -275,7 +281,7 @@ function foldContentsLst(e: Event): void {
     }
 }
 
-function makeCorrespoingAnchorBold(e: Event): void {
+function makeCorrespoingAnchorBold(): void {
     if (allHeadlines != null) {
         let minDistanceToPageTop = Infinity;
         let closestHeadline: Element | null = null;

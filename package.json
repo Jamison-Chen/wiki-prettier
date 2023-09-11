@@ -1,18 +1,20 @@
 {
-    "name": "webpage",
+    "name": "wiki-prettier",
     "version": "1.0.0",
     "description": "",
-    "main": "./script.bundle.js",
+    "main": "./js/main.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "init-ts": "tsc --init",
         "watch-tsc": "tsc -w",
-        "watch-sass": "sass --watch ./:./ view/:view/",
-        "dev": "concurrently 'npm:watch-*'"
+        "watch-sass": "sass --watch .:. view/:view/  --no-source-map",
+        "dev": "concurrently --kill-others 'npm:watch-*'"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "typescript": "^4.6.3"
+        "concurrently": "^8.2.1",
+        "sass": "^1.66.1",
+        "typescript": "^5.2.2"
     }
 }
