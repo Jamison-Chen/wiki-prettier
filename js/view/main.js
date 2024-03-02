@@ -219,7 +219,7 @@ function foldContentsLst(e) {
         contentsList.classList.remove("expand");
     }
 }
-function makeCorrespoingAnchorBold(e) {
+function makeCorrespoingAnchorBold() {
     if (allHeadlines != null) {
         let minDistanceToPageTop = Infinity;
         let closestHeadline = null;

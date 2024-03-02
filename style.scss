@@ -1,6 +1,14 @@
-:root {
-    --titleColor: #2d1400;
-    --bgc: #fdfaf3;
+$titleColor: #2d1400;
+$bgc: #efebe3;
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
 }
 
 @media screen and (min-width: 1024px) {
@@ -40,22 +48,15 @@
     background: #bbb;
 }
 
-html {
-    height: 100vh;
-    background-color: var(--bgc);
-    scroll-behavior: smooth;
-    cursor: default;
-    user-select: none;
-    overflow: hidden;
-}
-
 body {
-    height: 100%;
-    width: 100%;
-    margin: 0%;
-    padding: 0%;
+    min-height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
+    background-color: $bgc;
+    cursor: default;
 }
 
 #main {
@@ -72,7 +73,7 @@ body {
 #logo {
     width: 100%;
     text-align: center;
-    color: var(--titleColor);
+    color: $titleColor;
     font-family: "Times New Roman", Times, serif;
     letter-spacing: 2px;
     font-weight: 500;
@@ -162,7 +163,7 @@ body {
 
 .external-link {
     border-radius: 3px;
-    color: var(--titleColor);
+    color: $titleColor;
     margin: 0 10px;
     padding: 4px 8px;
     height: fit-content;
