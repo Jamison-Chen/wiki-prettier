@@ -6,15 +6,18 @@
     "scripts": {
         "init-ts": "tsc --init",
         "watch-tsc": "tsc -w",
-        "watch-sass": "sass --watch .:. view/:view/  --no-source-map",
-        "dev": "concurrently --kill-others 'npm:watch-*'"
+        "watch-sass": "sass --watch --no-source-map --style=compressed .:. view/:view/",
+        "dev": "concurrently 'npm:watch-*' 'live-server --port=3000'",
+        "build": "tsc && sass --no-source-map --style=compressed .:. view/:view/"
     },
     "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "author": "Bing-Yang Chen",
+    "license": "MIT",
+    "homepage": "https://me.byc1999.com/wiki-prettier",
     "devDependencies": {
-        "concurrently": "^8.2.1",
-        "sass": "^1.66.1",
-        "typescript": "^5.2.2"
+        "concurrently": "^9.0.1",
+        "live-server": "^1.2.2",
+        "sass": "^1.79.2",
+        "typescript": "^5.6.2"
     }
 }
